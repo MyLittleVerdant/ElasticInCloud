@@ -1,0 +1,22 @@
+{
+    "name": "verdant/clouds",
+    "autoload": {
+        "psr-4": {
+            "Verdant\\Clouds\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyom Podgorniack",
+            "email": "artem.podgornyak@promo.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
