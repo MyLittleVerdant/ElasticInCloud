@@ -8,22 +8,25 @@ services:
     environment:
       - 'discovery.type=single-node'
       - 'xpack.security.enabled=false'
-#    volumes:
-#      - 'es-data-es01:/usr/share/elasticsearch/data'
-  kibana:
-    image: kibana:8.8.0
-    depends_on:
-      es01:
-        condition: service_started
-    ports:
-      - '5601:5601'
-    environment:
-      - 'ELASTICSEARCH_HOSTS=["http://localhost:9200"]'
-  app:
+  elasticincloud:
     image: app
     ports:
-      - '8000:80'
+      - '80:80'
+    volumes:
+      - .:/var/www/html
     depends_on:
       - es01
+#    volumes:
+#      - 'es-data-es01:/usr/share/elasticsearch/data'
+#  kibana:
+#    image: kibana:8.8.0
+#    depends_on:
+#      es01:
+#        condition: service_started
+#    ports:
+#      - '5601:5601'
+#    environment:
+#      - 'ELASTICSEARCH_HOSTS=["http://localhost:9200"]'
+
 #volumes:
 #  es-data-es01:

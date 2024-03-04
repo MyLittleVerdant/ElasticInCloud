@@ -1,9 +1,10 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
-
+require '../vendor/autoload.php';
 use Elastic\Elasticsearch\ClientBuilder;
 
-$client = ClientBuilder::create()->build();
+$client = ClientBuilder::create()
+    ->setHosts(['es01:9200'])
+    ->build();
 
 $params = [
     'index' => 'my_index',
@@ -43,4 +44,4 @@ $params = [
 ];
 
 $response = $client->search($params);
-print_r($response);
+echo "<pre>";var_dump($response);echo "</pre>";die();
