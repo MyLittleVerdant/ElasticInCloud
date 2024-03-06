@@ -16,7 +16,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #COPY ./vendor /var/www/html/app/vendor
 
 # Изменяем корневую директорию документов на /var/www/html/app
-RUN sed -i 's!/var/www/html!/var/www/html/app!g' /etc/apache2/sites-available/000-default.conf
+#RUN sed -i 's!/var/www/html!/var/www/html/app!g' /etc/apache2/sites-available/000-default.conf
 
 # Открываем порт 80
 EXPOSE 80
