@@ -1,7 +1,6 @@
 {
     "require": {
-        "elasticsearch/elasticsearch": "^8.12"
-
+        "opensearch-project/opensearch-php": "^2.2"
     },
     "autoload": {
         "psr-4": {

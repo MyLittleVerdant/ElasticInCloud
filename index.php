@@ -1,47 +1,45 @@
 <?php
 require '../vendor/autoload.php';
-use Elastic\Elasticsearch\ClientBuilder;
-
-$client = ClientBuilder::create()
-    ->setHosts(['es01:9200'])
+$client = (new \OpenSearch\ClientBuilder())
+    ->setHosts(['https://localhost:9200'])
+    ->setBasicAuthentication('admin', 'admin')
+    ->setSSLVerification(false)
     ->build();
 
-$params = [
-    'index' => 'my_index',
-    'body'  => [
-        'mappings' => [
-            'properties' => [
-                'first_name' => [
-                    'type' => 'text'
-                ],
-                'last_name' => [
-                    'type' => 'text'
+$indexName = 'test-index-name';
+$client->indices()->create([
+    'index' => $indexName,
+    'body' => [
+        'settings' => [
+            'index' => [
+                'number_of_shards' => 4
+            ]
+        ]
+    ]
+]);
+
+$client->create([
+    'index' => $indexName,
+    'id' => 1,
+    'body' => [
+        'title' => 'Moneyball',
+        'director' => 'Bennett Miller',
+        'year' => 2011
+    ]
+]);
+
+var_dump(
+    $client->search([
+        'index' => $indexName,
+        'body' => [
+            'size' => 5,
+            'query' => [
+                'multi_match' => [
+                    'query' => 'miller',
+                    'fields' => ['title^2', 'director']
                 ]
             ]
         ]
-    ]
-];
+    ])
+);
 
-$response = $client->indices()->create($params);
-
-$params = [
-    'index' => 'my_index',
-    'id'    => '1',
-    'body'  => ['first_name' => 'John', 'last_name' => 'Doe']
-];
-
-$response = $client->index($params);
-
-$params = [
-    'index' => 'my_index',
-    'body'  => [
-        'query' => [
-            'match' => [
-                'first_name' => 'John'
-            ]
-        ]
-    ]
-];
-
-$response = $client->search($params);
-echo "<pre>";var_dump($response);echo "</pre>";die();

@@ -6,6 +6,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y git unzip
 
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Открываем порт 80
+EXPOSE 80
 
 # Копируем файлы приложения в контейнер
 #COPY ./app /var/www/html/app
@@ -18,5 +20,3 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Изменяем корневую директорию документов на /var/www/html/app
 #RUN sed -i 's!/var/www/html!/var/www/html/app!g' /etc/apache2/sites-available/000-default.conf
 
-# Открываем порт 80
-EXPOSE 80
