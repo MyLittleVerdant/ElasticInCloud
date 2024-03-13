@@ -1,8 +1,8 @@
 <?php
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 $client = (new \OpenSearch\ClientBuilder())
-    ->setHosts(['https://localhost:9200'])
-    ->setBasicAuthentication('admin', 'admin')
+    ->setHosts(['opensearch:9200'])
+    ->setBasicAuthentication('admin', 'strongPass123!')
     ->setSSLVerification(false)
     ->build();
 
