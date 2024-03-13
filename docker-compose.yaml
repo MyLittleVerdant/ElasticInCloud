@@ -12,6 +12,7 @@ services:
     image: opensearchproject/opensearch:latest
     environment:
       - discovery.type=single-node
+      - plugins.security.ssl.http.enabled=false
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=strongPass123!
     ports:
       - "9200:9200"
