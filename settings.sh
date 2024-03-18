@@ -42,4 +42,4 @@ composer install
 
 #запуск Opensearch
 cd /usr/share/opensearch/bin/
-./opensearch
+./opensearch -Ediscovery.type=single-node -Eplugins.security.ssl.http.enabled=false
