@@ -1,0 +1,61 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+users:
+  - name: ubuntu
+    groups: sudo
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCxr0OYCwI2b2raXjpnFCnZRMJJgreK/xAIpqPJqfI4ktSTrZ1LPklo+kItWbFHmznDnWCuDoBYeOpn+yyHSgnIa3uPds7jtXgytBd9zuEcU+tm93hvuD8vj2nUBiTqaCSiJJ01/Jy4pnRS3vtuwYPVRD/yOM317RdV/93USF+bILTfH2ymseoiI9TYI5WzdSpjGo8WIDAfElkcUt8oVcC5/Aph8VqHmN6FY+XrqDO40bEu8tt/QN8vEisaziEcxk/PtSMGY2JrZDBV83HFxRQuFnjlrX0gK/uF+sujAN6MuZWx9BSe97FRhwm8U/1Pj2Ao7ftpjkdcLjuZSBSCLipEZRw/Farj4VI7WJLorZl6pXJ4bATLdm7fakgwyap4YnhYTidLMXZbHJwcqcgR9EjG4G7yuJsxHETOeoY8jvC2MW7NQD+x0B/zJKieof/Waspkay/zvOMolWfybs/PEU3nq+dha2kYeAD5AfsSyx+hlQhYl6K7cU6lNe82N0PaWGk= kamol@legion-amir
+
+groups:
+  - docker
+
+system_info:
+  default_user:
+    groups: [docker]
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - unattended-upgrades
+
+runcmd:
+  - mkdir -p /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - apt-get update
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  - systemctl enable docker
+  - systemctl start docker
+  - cd /run && docker compose up -d
+
+write_files:
+  - path: /run/docker-compose.yml
+    content:
+      version: '3'
+      services:
+        openincloud:
+          image: mylittlebluebird/open-in-cloud
+          ports:
+            - "80:80"
+          volumes:
+            - .:/var/www/html
+          depends_on:
+            - opensearch
+        opensearch:
+          image: opensearchproject/opensearch:latest
+          environment:
+            - discovery.type=single-node
+            - plugins.security.ssl.http.enabled=false
+            - OPENSEARCH_INITIAL_ADMIN_PASSWORD=strongPass123!
+          ports:
+            - "9200:9200"
+            - "9600:9600"
+
+final_message: "The system is finally up, after $UPTIME seconds"
