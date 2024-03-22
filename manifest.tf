@@ -1,7 +1,10 @@
 terraform {
+  required_version = ">= 1.0.0"
+
+
   required_providers {
     rustack = {
-      source  = "pilat/rustack"
+      source = "rustack-cloud-platform/rcp"
       version = "> 1.1.0"
     }
   }
@@ -11,12 +14,12 @@ terraform {
 # Configure the Rustack Provider
 provider "rustack" {
   api_endpoint = "https://cloud.mephi.ru"
-  token        = '0d35900404df7f09ea9b96f03986c5f48eefd908'
+  token        = "981c0fe2e155884d43f25b439d61c9fb1732062a"
 }
 
 # Получаем проект с id
 data "rustack_project" "single_project" {
-  id = "5da5f348-68ee-46f6-bc13-d5cbd0ae96e6"
+  name = "OpenSearch"
 }
 
 # получаем гиппервизоров для создания ВЦОД
