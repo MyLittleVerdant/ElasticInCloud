@@ -7,19 +7,16 @@ terraform {
   }
 }
 
-locals {
-  token = '0d35900404df7f09ea9b96f03986c5f48eefd908'
-  ssh_key = ''
-}
+
 # Configure the Rustack Provider
 provider "rustack" {
   api_endpoint = "https://cloud.mephi.ru"
-  token        = locals.token
+  token        = '0d35900404df7f09ea9b96f03986c5f48eefd908'
 }
 
 # Получаем проект с id
 data "rustack_project" "single_project" {
-  name= ''
+  id = "5da5f348-68ee-46f6-bc13-d5cbd0ae96e6"
 }
 
 # получаем гиппервизоров для создания ВЦОД

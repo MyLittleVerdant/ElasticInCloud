@@ -8,7 +8,8 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     shell: /bin/bash
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCxr0OYCwI2b2raXjpnFCnZRMJJgreK/xAIpqPJqfI4ktSTrZ1LPklo+kItWbFHmznDnWCuDoBYeOpn+yyHSgnIa3uPds7jtXgytBd9zuEcU+tm93hvuD8vj2nUBiTqaCSiJJ01/Jy4pnRS3vtuwYPVRD/yOM317RdV/93USF+bILTfH2ymseoiI9TYI5WzdSpjGo8WIDAfElkcUt8oVcC5/Aph8VqHmN6FY+XrqDO40bEu8tt/QN8vEisaziEcxk/PtSMGY2JrZDBV83HFxRQuFnjlrX0gK/uF+sujAN6MuZWx9BSe97FRhwm8U/1Pj2Ao7ftpjkdcLjuZSBSCLipEZRw/Farj4VI7WJLorZl6pXJ4bATLdm7fakgwyap4YnhYTidLMXZbHJwcqcgR9EjG4G7yuJsxHETOeoY8jvC2MW7NQD+x0B/zJKieof/Waspkay/zvOMolWfybs/PEU3nq+dha2kYeAD5AfsSyx+hlQhYl6K7cU6lNe82N0PaWGk= kamol@legion-amir
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf3qQxaeghdhH3qWpLFg+9z4i/H+YWNH3eb7QDQFkQ3d1OCV3a/OFgvyfYsS8YYapwX2m4KZj9c/KTAF4fwmhKkyxQggAtPrLp6DaSQndWm/finIgUPMhX72QMIslJCXAMZyeIPpydN/Rgwj+rhCRipLjtlMIplsZnAZGahX/Fs0ynHXyE4S7pS/y6cL5Zb0zpPYk9fyG4iPvIthmOUYvt6EWfHKqKh0C9K+rNz7XcOf5UyvHbZa3m7arry2N650sBywN/7X3pBH5Grw+xm7+zYwpNuwk4y6ANJdJ307SKVrWX60r7G9hul6viXEEUwYdUnsPoUDDAQSOXsuSUSvr68EUQSTXqjml1WfrE4BEwvsnaVQHROQhRU43Z47RzfObdvlzsB00AL8DmlGCnNpL6cpUbX+tQ1JAU4qsl3Miybv2UqiBKIPDtsTDB7R7GxaquZXp9LBDT4Qnn9emTA+/Wm70yhxlIC1V0Cdr93F4DKgzlycaAjEmjdJmYdm1yccc= Verdant@LAPTOP-UTG05A1L
+
 
 groups:
   - docker
@@ -41,7 +42,7 @@ write_files:
       version: '3'
       services:
         openincloud:
-          image: mylittlebluebird/open-in-cloud
+          image: mylittlebluebird/openincloud
           ports:
             - "80:80"
           volumes:
