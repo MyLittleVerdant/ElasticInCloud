@@ -94,7 +94,7 @@ resource "rustack_vm" "vm1" {
   ram         = 4
   template_id = data.rustack_template.ubuntu20.id
 
-  user_data = file("user_data.yaml")
+  user_data = file("cloud-config.yaml")
 
   system_disk {
     size               = 10
