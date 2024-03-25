@@ -49,7 +49,7 @@ data "rustack_storage_profile" "ssd" {
 # получаем шаблон машины что бы потом передать для создания ВМ
 data "rustack_template" "ubuntu20" {
   vdc_id = resource.rustack_vdc.single_vdc.id
-  name   = "Ubuntu 20.04"
+  name   = "Docker 20.10 (Ubuntu 20.04)"
 }
 
 # получаем шаблон фаерволла что бы потом передать для создания ВМ
@@ -90,14 +90,14 @@ resource "rustack_port" "router_port" {
 resource "rustack_vm" "vm1" {
   vdc_id = resource.rustack_vdc.single_vdc.id
   name        = "Server 1"
-  cpu         = 2
-  ram         = 4
+  cpu         = 4
+  ram         = 16
   template_id = data.rustack_template.ubuntu20.id
 
   user_data = file("cloud-config.yaml")
 
   system_disk {
-    size               = 10
+    size               = 30
     storage_profile_id = data.rustack_storage_profile.ssd.id
   }
 

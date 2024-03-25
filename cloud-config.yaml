@@ -2,44 +2,44 @@
 package_update: true
 package_upgrade: true
 
+debug:
+  verbose: true
+cloud_init_modules:
+  - migrator
+  - seed_random
+  - write-files
+  - growpart
+  - resizefs
+  - set_hostname
+  - update_hostname
+  - update_etc_hosts
+  - users-groups
+  - ssh
+  - runcmd
+
 users:
-  - name: ubuntu
+  - name: verdant
     groups: sudo
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     shell: /bin/bash
     ssh_authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf3qQxaeghdhH3qWpLFg+9z4i/H+YWNH3eb7QDQFkQ3d1OCV3a/OFgvyfYsS8YYapwX2m4KZj9c/KTAF4fwmhKkyxQggAtPrLp6DaSQndWm/finIgUPMhX72QMIslJCXAMZyeIPpydN/Rgwj+rhCRipLjtlMIplsZnAZGahX/Fs0ynHXyE4S7pS/y6cL5Zb0zpPYk9fyG4iPvIthmOUYvt6EWfHKqKh0C9K+rNz7XcOf5UyvHbZa3m7arry2N650sBywN/7X3pBH5Grw+xm7+zYwpNuwk4y6ANJdJ307SKVrWX60r7G9hul6viXEEUwYdUnsPoUDDAQSOXsuSUSvr68EUQSTXqjml1WfrE4BEwvsnaVQHROQhRU43Z47RzfObdvlzsB00AL8DmlGCnNpL6cpUbX+tQ1JAU4qsl3Miybv2UqiBKIPDtsTDB7R7GxaquZXp9LBDT4Qnn9emTA+/Wm70yhxlIC1V0Cdr93F4DKgzlycaAjEmjdJmYdm1yccc= Verdant@LAPTOP-UTG05A1L
 
-
-groups:
-  - docker
-
-system_info:
-  default_user:
-    groups: [docker]
-
 packages:
   - apt-transport-https
   - ca-certificates
   - curl
-  - gnupg
-  - lsb-release
-  - unattended-upgrades
+  - software-properties-common
 
 runcmd:
-  - mkdir -p /etc/apt/keyrings
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - apt-get update
-  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  - systemctl enable docker
-  - systemctl start docker
-  - cd /run && docker compose up -d
+  - sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo docker-compose -f /run/docker-compose.yaml up -d
 
 write_files:
-  - path: /run/docker-compose.yml
-    content:
-      version: '3'
+  - path: /run/docker-compose.yaml
+    content: |
+      version: '3.3'
       services:
         openincloud:
           image: mylittlebluebird/openincloud
@@ -58,5 +58,8 @@ write_files:
           ports:
             - "9200:9200"
             - "9600:9600"
+
+
+
 
 final_message: "The system is finally up, after $UPTIME seconds"
