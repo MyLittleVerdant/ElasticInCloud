@@ -6,6 +6,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y git unzip
 
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . /var/www/html/
+
 # Открываем порт 80
 EXPOSE 80
 
