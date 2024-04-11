@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openincloud-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: openincloud
+  ports:
+    - name: openincloud-server-port
+      port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openincloud-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openincloud
+  template:
+    metadata:
+      labels:
+        app: openincloud
+    spec:
+      containers:
+        - name: openincloud
+          image: mylittlebluebird/openincloud
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch
+spec:
+  type: LoadBalancer
+  selector:
+    app: opensearch
+  ports:
+    - name: opensearch-port
+      port: 9200
+    - name: opensearch-node-port
+      port: 9600
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opensearch-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opensearch
+  template:
+    metadata:
+      labels:
+        app: opensearch
+    spec:
+      containers:
+        - name: opensearch
+          image: opensearchproject/opensearch:latest
+          env:
+            - name: discovery.type
+              value: "single-node"
+            - name: plugins.security.ssl.http.enabled
+              value: "false"
+            - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+              value: strongPass123!
+          ports:
+            - containerPort: 9200
+            - containerPort: 9600
